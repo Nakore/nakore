@@ -54,9 +54,9 @@ menu.state("home.find.action", {
             const status = "Successful";
             const order = await Order.updateOne({transactionId: id}, {$set:{paymentStatus: status}});
             if(order){
-                menu.con(`Order completed`);
+                menu.end(`Order completed`);
             } else {
-                menu.end("failed");
+                menu.end("Confirmation failed");
             }
         }catch (err){
             console.log(err);
