@@ -28,7 +28,7 @@ menu.state("home.find.validate", {
         if(order){            
             menu.con("Order Details: "+
             `\n${order.product}`+
-            `\nQuantity${order.quantity}`+
+            `\nQuantity: ${order.quantity}`+
             `\nPayment Due: ${order.amount}`+
             `\nPayment Status: ${order.paymentStatus}`+
             "\n1. Confirm Cash"+
