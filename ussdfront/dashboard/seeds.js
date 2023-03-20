@@ -111,7 +111,7 @@ module.exports = menu => {
     menu.state('home.seed.select.lga', {
         run: async () => {
             const { val } = menu
-            
+            console.log(sessions.qty);
             sessions["state"] = val
             console.log("Entered value: " + val);
             if (val === "adamawa") {
@@ -187,7 +187,7 @@ module.exports = menu => {
             const transactionId = refCode(4, '01345678');
             const quantity = sessions.qty;
             const product = sessions.Desc;
-            const amount = qty * 3200;
+            const amount = sessions.qty * 3200;
             const phone = phoneNumber;
             const lga = sessions.lga;
             const state = sessions.state;

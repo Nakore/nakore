@@ -28,20 +28,21 @@ menu.state("home.find.validate", {
         if(order){            
             menu.con("Order Details: "+
             `\n${order.product}`+
-            `\n${order.quantity}`+
+            `\nQuantity${order.quantity}`+
             `\nPayment Due: ${order.amount}`+
             `\nPayment Status: ${order.paymentStatus}`+
             "\n1. Confirm Cash"+
             "\n2. Back"
             );
         } else {
-            menu.end("Invalid refcode");
+            menu.con("Invalid refcode"+
+            "\n1. Back");
         }
 
     },
     next: {
         "1":"home.find.action",
-        "2":"Change Pin"
+        "2":"home.find"
     },
     defaultNext: "invalidOption",
 })
