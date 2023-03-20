@@ -25,15 +25,19 @@ menu.state("home.find.validate", {
         const id = sessions.ref;
         console.log("val:", val);
         console.log(id);
-        const data = await Order.findOne({transactionId: val});
-        if(data){
-            console.log(data);
-            menu.con("progress with num");
+        const order = await Order.findOne({transactionId: val});
+        if(order){            
+            menu.con("Order Details: "+
+            `\n${order.product}`+
+            `\n${order.quantity}`+
+            `\nPayment Due: ${order.amount}`+
+            `\nPayment Status: ${order.paymentStatus}`+
+            "\n1. Confirm Cash"+
+            "\n2. Back"
+            );
         } else {
             menu.end("Invalid refcode");
         }
-        
-        
 
     },
     next: {

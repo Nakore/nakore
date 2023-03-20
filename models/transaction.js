@@ -36,6 +36,10 @@ const transactionSchema = new mongoose.Schema({
             type: Number,
             required: [true, "amount is require"],
         },
+        quantity:{
+            type: Number,
+            required: [true, "Quantity is required"]
+        },
         currency: {
             type: String,
             enum: ["NGN", "USD", "EUR", "GBP"],
@@ -44,7 +48,7 @@ const transactionSchema = new mongoose.Schema({
         },
         paymentStatus: {
             type: String,
-            enum: ["successful","pending","failed"],
+            enum: ["Successful","Ending","Failed"],
             default: "pending",
         },
         paymentGateway: {

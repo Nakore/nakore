@@ -185,7 +185,7 @@ module.exports = menu => {
 
             const { val, args:{phoneNumber} } = menu
             const transactionId = refCode(4, '01345678');
-            const qty = sessions.qty;
+            const quantity = sessions.qty;
             const product = sessions.Desc;
             const amount = qty * 3200;
             const phone = phoneNumber;
@@ -194,7 +194,7 @@ module.exports = menu => {
             //Create and save transaction to database
             try {
                 const invoice = new transaction({
-                    transactionId, phone, product, amount, state, lga
+                    transactionId, quantity, phone, product, amount, state, lga
                 })
                 await invoice.save();
                 /* client.messages
