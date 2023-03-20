@@ -9,7 +9,7 @@ module.exports = menu => {
 menu.state('home.find', {
     run: async () => {
         const { val } =menu;
-        sessions["ref"] = val;
+        
         menu.con(`Provide Ref Code: `);
 
     },
@@ -22,9 +22,8 @@ menu.state('home.find', {
 menu.state("home.find.validate", {
     run: async () => {
         const { val } = menu;
-        const id = sessions.ref;
-        console.log("val:", val);
-        console.log(id);
+        sessions["ref"] = val;
+        
         const order = await Order.findOne({transactionId: val});
         if(order){            
             menu.con("Order Details: "+
@@ -41,7 +40,32 @@ menu.state("home.find.validate", {
 
     },
     next: {
-        "1":"home.find.validate",
+        "1":"home.find.action",
+        "2":"Change Pin"
+    },
+    defaultNext: "invalidOption",
+})
+
+menu.state("home.find.action", {
+    run: async () => {
+        const { val } = menu;
+        const id = sessions.ref;
+        try{
+            const status = "Successful";
+            const order = await Order.updateOne({transactionId: id}, {$set:{paymentStatus: status}});
+            if(order){
+                menu.con(`Order completed`);
+            } else {
+                menu.end("failed");
+            }
+        }catch (err){
+            console.log(err);
+        }
+        
+
+    },
+    next: {
+        "1":"home.find.action",
         "2":"Change Pin"
     },
     defaultNext: "invalidOption",
