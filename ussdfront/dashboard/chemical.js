@@ -90,7 +90,7 @@ module.exports = menu => {
         run: async () => {
             const input = await Products.find({category: "Herbicide"});
             let herbicide =[];
-            for(let i=0; i< input.length; i++){
+            for(let i=0; i < input.length; i++){
                 herbicide.push(input[i]["title"]);
             }
             const {
