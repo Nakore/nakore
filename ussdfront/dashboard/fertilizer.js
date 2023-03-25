@@ -9,9 +9,8 @@ module.exports = menu => {
             let num;
             //let products = seeds["products"];
             for(let i=0; i< input.length; i++){
-                fertilizer.push(`\n`+(i+1).toString()+`. ` +input[i]["title"]);
-                num+= i;
-            }
+                fertilizer.push(input[i]["title"]);
+             }
             menu.con(`Fertilizers available:`+
                 `${fertilizer}`
             );

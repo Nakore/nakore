@@ -36,20 +36,18 @@ module.exports = menu => {
         run: async () => {
             const { val } = menu;
             sessions["product"] = val;
+            let herbicide = [];
             const chemical = await Products.find({category: "Herbicide"});
-            let herbicide = "";
-            for(let i=0; i< chemical.length; i++){
-                herbicide.push(input[i]["title"]);
-            }
             
-            const roundup = JSON.parse(val);         
-            menu.con(`Fertilizers available:`+
-            `${seeds}`
-            );
+            for(let i=0; i< chemical.length; i++){
+                herbicide.push(chemical[i]["title"]);
+            }
+            sessions["roundup"] = val;
+            menu.con(`How many ${herbicide[0]} do you want?`);
            
         },
         next: {
-            "*\\d":"home.round.pay",
+            "*\\w":"home.chemical.select.state"
         },
         defaultNext: "invalidOption",
     });
@@ -64,13 +62,29 @@ module.exports = menu => {
                 herbicide.push(input[i]["title"]);
             }            
             sessions["atrazine"] = val;     
-                menu.con(`How many ${herbicide[1]}`);
+                menu.con(`How many ${herbicide[1]} do you want?`);
         },
         next: {
-            "*\\d":"home.atraz.pay"
+            "*\\w":"home.chemical.select.state"
         },
         defaultNext: "invalidOption",
     });
+
+    //Choose State
+    menu.state('home.chemical.select.state', {
+        run: async () => {
+            const {val } = menu;
+            sessions["qty"] = val;
+            
+            menu.con("Please enter State");           
+        },
+        next: {
+            "*\\w":"home.seed.select.lga"
+
+        },
+        defaultNext: "invalideOption",
+    });
+
     //Shopping Summary for Roundup Selection
     menu.state('home.round.pay', {
         run: async () => {
