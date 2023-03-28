@@ -107,7 +107,7 @@ module.exports = menu => {
         },
         defaultNext: "invalideOption",
     });
-    //Choose State
+    //Choose Local Government Area
     menu.state('home.seed.select.lga', {
         run: async () => {
             const { val } = menu

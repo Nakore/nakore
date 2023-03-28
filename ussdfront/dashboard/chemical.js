@@ -37,19 +37,19 @@ module.exports = menu => {
             const { val } = menu;
             sessions["product"] = val;
             const chemical = await Products.find({category: "Herbicide"});
-            let herbicide = "";
+            let herbicide = [];
             for(let i=0; i< chemical.length; i++){
-                herbicide.push(input[i]["title"]);
+                herbicide.push(chemical[i]["title"]);
             }
             
             const roundup = JSON.parse(val);         
-            menu.con(`Fertilizers available:`+
-            `${seeds}`
+            menu.con(`Chemicals available:`+
+            `${herbicide}`
             );
            
         },
         next: {
-            "*\\d":"home.round.pay",
+            "*\\d":"home.chemical.select.state",
         },
         defaultNext: "invalidOption",
     });
@@ -67,10 +67,52 @@ module.exports = menu => {
                 menu.con(`How many ${herbicide[1]}`);
         },
         next: {
-            "*\\d":"home.atraz.pay"
+            "*\\d":"home.chemical.select.state"
         },
         defaultNext: "invalidOption",
     });
+
+    //Choose State
+    menu.state('home.chemical.select.state', {
+        run: async () => {
+            const {val } = menu;
+            sessions["qty"] = val;
+            
+            menu.con("Please enter State");           
+        },
+        next: {
+            "*\\w":"home.seed.select.lga"
+
+        },
+        defaultNext: "invalideOption",
+    });
+    //Choose Local Government Area
+    menu.state('home.seed.select.lga', {
+        run: async () => {
+            const { val } = menu
+            console.log(sessions.qty);
+            sessions["state"] = val
+            console.log("Entered value: " + val);
+            if (val === "adamawa") {
+                menu.con("Please enter your Local Government:");
+            } else if (val === "Adamawa"){
+                menu.con("Please enter your Local Government:");
+            } else if (val === "Lagos"){
+                menu.con("Please enter your Local Government:");
+            } else if (val === "lagos"){
+                menu.con("Please enter your Local Government:");
+            }
+            else {
+                menu.end(`Our service hasn't reached your area yet.
+                \nPlease call +2347033009900 to order`)
+            }                       
+        },
+        next: {
+            "*\\w":"home.seed.select.lga.summary"
+        },
+        defaultNext: "invalideOption",
+    });
+
     //Shopping Summary for Roundup Selection
     menu.state('home.round.pay', {
         run: async () => {
@@ -79,10 +121,7 @@ module.exports = menu => {
             for(let i=0; i< input.length; i++){
                 herbicide.push(input[i]["title"]);
             }
-            const {
-                val,
-                args: { phoneNumber }
-            } = menu;
+            const { val, args: { phoneNumber }} = menu;
                 qty = JSON.parse(val)
                 const total = qty * 1200
                 menu.con(`Total: ${qty} x 1200 = 
@@ -97,6 +136,50 @@ module.exports = menu => {
         },
         defaultNext: "invalidOption",
     });
+
+    //Order Summry
+    menu.state('home.seed.select.lga.summary', {
+        run: async () => {
+            const { val, args: { phoneNumber }} = menu;
+            sessions["lga"] = val;
+            const qty = sessions.qty;
+            const desc = sessions.Desc;
+            const selectedProduct = sessions.product;
+            if (selectedProduct === "0") {
+                const total= qty * 1200;
+                sessions["total"] = total;
+                menu.con(`Summary: `+
+                `\n${qty} `+`${desc} x N1,200.00/kg = 
+                N${total}. Proceed to payment?`+
+                `\n1. Cash`
+                );
+            } else if ( selectedProduct === "1") {
+                const total = qty * 3700;
+                sessions["total"] = total;
+                menu.con(`Summary: `+
+                `\n${qty} `+`${desc} x N3,700.00/kg = 
+                N${total}. Proceed to payment?`+
+                `\n1. Cash`
+                );
+            } else if ( selectedProduct === "2") {
+                const total = qty * 2000;
+                sessions["total"] = total;
+                menu.con(`Summary: `+
+                `\n${qty} `+`${desc} x N2,000.00/kg = 
+                N${total}. Proceed to payment?`+
+                `\n1. Cash`
+                );
+            }
+           
+        },
+        next: {
+            "1": "home.seed.pay",
+            "2":"home.chemical.pay"
+        },
+        defaultNext: "invalidOption",
+
+    })
+
     //Shopping Summary for Roundup Selection
     menu.state('home.atraz.pay', {
         run: async () => {
