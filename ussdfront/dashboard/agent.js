@@ -26,11 +26,11 @@ menu.state("home.find.validate", {
         
         const order = await Order.findOne({transactionId: val});
         if(order){            
-            menu.con("Order Details: "+
-            `\n${order.product}`+
-            `\nQuantity: ${order.quantity}`+
-            `\nPayment Due: ${order.amount}`+
-            `\nPayment Status: ${order.paymentStatus}`+
+            menu.con("Order Details: " +
+            `\n${order.product}` +
+            `\nQuantity: ${order.quantity}` +
+            `\nPayment Due: ${order.amount}` +
+            `\nPayment Status: ${order.paymentStatus}` +
             "\n1. Confirm Cash"+
             "\n2. Back"
             );

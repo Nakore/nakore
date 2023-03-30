@@ -121,7 +121,7 @@ module.exports = menu => {
                 const total = qty * 2000;
                 sessions["total"] = total;
                 menu.con(`Summary: `+
-                `\n${qty} `+`${desc} x N2,000.00/kg = 
+                `\n${qty}`+`${desc} x N2,000.00/kg = 
                 N${total}. Proceed to payment?`+
                 `\n1. Cash`
                 );
