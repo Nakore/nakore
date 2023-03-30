@@ -16,9 +16,10 @@ module.exports = menu => {
             const input = await Products.find({category: "Fertilizer"});            
             let fertilizer="";            
             for(let i=0; i< input.length; i++){
-                fertilizer += (`\n`+[i.toString()]+" : "+ input[i]["title"]); 
+                fertilizer.push(`\n`+(i+1).toString()+`. ` +input[i]["title"]);
+                num+= i;
             }
-            menu.con(`Available brands:`+
+            menu.con(`Fertilizers available:`+
                 `${fertilizer}`
             );
             },

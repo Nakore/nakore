@@ -36,6 +36,7 @@ module.exports = menu => {
         run: async () => {
             const { val } = menu;
             sessions["product"] = val;
+            let herbicide = [];
             const chemical = await Products.find({category: "Herbicide"});
             let herbicide = [];
             for(let i=0; i< chemical.length; i++){
@@ -43,13 +44,13 @@ module.exports = menu => {
             }
             
             const roundup = JSON.parse(val);         
-            menu.con(`Chemicals available:`+
-            `${herbicide}`
+            menu.con(`Fertilizers available:`+
+            `${seeds}`
             );
            
         },
         next: {
-            "*\\d":"home.chemical.select.state",
+            "*\\d":"home.round.pay",
         },
         defaultNext: "invalidOption",
     });
@@ -64,61 +65,19 @@ module.exports = menu => {
                 herbicide.push(input[i]["title"]);
             }            
             sessions["atrazine"] = val;     
-                menu.con(`How many ${herbicide[1]}`);
+                menu.con(`How many ${herbicide[1]} do you want?`);
         },
         next: {
-            "*\\d":"home.chemical.select.state"
+            "*\\d":"home.atraz.pay"
         },
         defaultNext: "invalidOption",
     });
-
-    //Choose State
-    menu.state('home.chemical.select.state', {
-        run: async () => {
-            const {val } = menu;
-            sessions["qty"] = val;
-            
-            menu.con("Please enter State");           
-        },
-        next: {
-            "*\\w":"home.seed.select.lga"
-
-        },
-        defaultNext: "invalideOption",
-    });
-    //Choose Local Government Area
-    menu.state('home.seed.select.lga', {
-        run: async () => {
-            const { val } = menu
-            console.log(sessions.qty);
-            sessions["state"] = val
-            console.log("Entered value: " + val);
-            if (val === "adamawa") {
-                menu.con("Please enter your Local Government:");
-            } else if (val === "Adamawa"){
-                menu.con("Please enter your Local Government:");
-            } else if (val === "Lagos"){
-                menu.con("Please enter your Local Government:");
-            } else if (val === "lagos"){
-                menu.con("Please enter your Local Government:");
-            }
-            else {
-                menu.end(`Our service hasn't reached your area yet.
-                \nPlease call +2347033009900 to order`)
-            }                       
-        },
-        next: {
-            "*\\w":"home.seed.select.lga.summary"
-        },
-        defaultNext: "invalideOption",
-    });
-
     //Shopping Summary for Roundup Selection
     menu.state('home.round.pay', {
         run: async () => {
             const input = await Products.find({category: "Herbicide"});
             let herbicide =[];
-            for(let i=0; i< input.length; i++){
+            for(let i=0; i < input.length; i++){
                 herbicide.push(input[i]["title"]);
             }
             const { val, args: { phoneNumber }} = menu;
