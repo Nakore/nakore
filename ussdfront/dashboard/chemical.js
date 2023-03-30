@@ -12,14 +12,14 @@ module.exports = menu => {
     //Nakore Chemical Listing Menu
     menu.state("home.chemical", {
         run: async () => {
-            const {val, args: { phoneNumber }} = menu;
+            const { val, args: { phoneNumber }} = menu;
             const chemical = await Products.find({category: "Herbicide"});
             let herbicide =[];
             
-            for(let i=0; i< chemical.length; i++){
+            for(let i=0; i < chemical.length; i++){
                 herbicide.push(`\n`+(i+1).toString()+`. ` +chemical[i]["title"]);                
             }
-            menu.con(`Chemicals available:`+
+            menu.con(`Available chemicals :`+
                 `${herbicide}`
             );
             },
@@ -151,7 +151,9 @@ module.exports = menu => {
                 menu.con(`Summary: `+
                 `\n${qty} `+`${desc} x N1,200.00/kg = 
                 N${total}. Proceed to payment?`+
-                `\n1. Cash`
+                `\n1. Cash`+
+                `\n2. Wallet`+
+                `\n3. Airtime`
                 );
             } else if ( selectedProduct === "1") {
                 const total = qty * 3700;
@@ -159,7 +161,9 @@ module.exports = menu => {
                 menu.con(`Summary: `+
                 `\n${qty} `+`${desc} x N3,700.00/kg = 
                 N${total}. Proceed to payment?`+
-                `\n1. Cash`
+                `\n1. Cash`+
+                `\n2. Wallet`+
+                `\n3. Airtime`
                 );
             } else if ( selectedProduct === "2") {
                 const total = qty * 2000;
@@ -167,7 +171,9 @@ module.exports = menu => {
                 menu.con(`Summary: `+
                 `\n${qty} `+`${desc} x N2,000.00/kg = 
                 N${total}. Proceed to payment?`+
-                `\n1. Cash`
+                `\n1. Cash`+
+                `\n2. Wallet`+
+                `\n3. Airtime`
                 );
             }
            
