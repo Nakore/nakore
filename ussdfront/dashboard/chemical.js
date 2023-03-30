@@ -38,7 +38,6 @@ module.exports = menu => {
             sessions["product"] = val;
             let herbicide = [];
             const chemical = await Products.find({category: "Herbicide"});
-            let herbicide = [];
             for(let i=0; i< chemical.length; i++){
                 herbicide.push(chemical[i]["title"]);
             }
