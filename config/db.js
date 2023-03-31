@@ -1,10 +1,10 @@
 const { default: mongoose } = require('mongoose');
-const { DATABASE_LIVE } = process.env;
+const { DATABASE_URL } = process.env;
 
 
 exports.connect = () => {
     mongoose.set('strictQuery', false)
-    .connect(DATABASE_LIVE, {
+    .connect(DATABASE_URL, {
         useNewUrlParser: true,
     })    
     .then(()=> {
