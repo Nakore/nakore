@@ -56,25 +56,56 @@ exports.transactions = [ async(req, res) => {
 
 }]
 
+//Sum Of Total NGN Transaction
 exports.Total = [ async(req, res) => {
     const response = await transaction.aggregate([
-        {
-            $setWindowFields: {
-               partitionBy: "$currency",
-               sortBy: { createdAt: 1 },
-               output: {
-                  sumQuantityForState: {
-                     $sum: "$amount"                    
-                  }
-               }
-            }
-         }
+        {$match: {currency: "NGN"} },
+        {$group: {
+          _id: "transactionId",
+          total: {
+            $sum: "$amount"
+          }
+        }},
+        {$sort: {total: -1}}
     ], function(err, result){
         console.log(result);
         
     })
     res.status(200).json({"total": response});
 
+}]
+
+//Sum of Pending Transaction
+exports.totalPendingTransaction = [ async(req, res) => {
+    const response = await transaction.aggregate([
+        {$match: {paymentStatus: "pending"}},
+        {$match: {
+          _id: "transactionId",
+          total: {
+            $sum: "$amount"
+          }
+        }},
+        {$sort: {total: -1}}
+    ], function(err, result) {
+        console.log(result);
+    })
+    res.status(200).json({"total": response});
+}]
+//Sum of Completed Transaction
+exports.totalCompletedTransaction = [ async(req, res) => {
+    const response = await transaction.aggregate([
+        {$match: {paymentStatus: "successful"}},
+        {$match: {
+          _id: "transactionId",
+          total: {
+            $sum: "$amount"
+          }
+        }},
+        {$sort: {total: -1}}
+    ], function(err, result) {
+        console.log(result);
+    })
+    res.status(200).json({"total": response});
 }]
 
 exports.transaction = [ async (req, res) => {
